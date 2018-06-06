@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="no-js">
+  <head>
+      <meta charset="utf-8">
+      <title>Drone Cafe App</title>
+      <link rel="stylesheet" type="text/css" href="main.css" >
+      
+      
+
+
+  </head>
+
+  <body ng-controller="myAppCtrl">
+    <div id="login_page" data-ng-controller="LoginPageCtrl">
+      <form id="login_form" name="vm.loginForm" novalidate>
+        <div id="form-group">
+          <label for="">Имя</label>
+          <input type="text" class="form-control" name="nameInput" data-ng-model="vm.name">
+        </div>
+        <div class="form-group" data-ng-class="{'has-error': vm.loginForm.emailInput.$dirty && vm.loginForm.emailInput.$invalid }">
+          <label for="">E-mail</label>
+          <input type="email" class="form-control" name="emailInput" data-ng-model="vm.inputData.email">
+        </div>
+        <div data-ng-show="vm.loginForm.emailInput.$dirty && vm.loginForm.emailInput.$invalid">
+          <p data-ng-show="vm.loginForm.emailInput.$invalid">Введите корректный email</p>
+        </div>
+        <button id="login_btn">Логин</button>
+      </form>
+    </div>
+    <!-- <div data-ng-controller="ClientInfoCtrl">
+      <div>{{vm.name}}</div>
+      <div>{{vm.email}}</div>
+      <button>Пополнить</button>
+    </div>
+    <a href="" ng-click="showBlock = ! showBlock">Показать блок</a>
+    <div ng-show="showBlock">
+      Здесь любое содержимое
+    </div>
+
+    <div data-ng-controller="OrderListCtrl">
+      <ul>
+          <li>это будет блюдо</li>
+          <li>а это статус блюда</li>
+          <li>это будет блюдо</li>
+          <li>а это статус блюда</li>
+          <li>это будет блюдо</li>
+          <li>а это статус блюда</li>
+      </ul>
+      <a href="../Menu/Menu.html">ДОБАВИТЬ</button>
+    </div> -->
+
+    <script src="Login/login-index.js"></script>
+    <script src="components/angular/angular.js"></script>
+    <script src="components/angular/angular.min.js"></script>
+    <script src="App.js"></script>
+    <!-- <script src="Login/LoginPageCtrl.js"></script>
+    <script src="ClientInfo/ClientInfoCtrl.js"></script>
+    <script src="OrderList/OrderListCtrl.js"></script> -->
+    <script src="components/socket.io/socket.io.js"></script>
+  </body>
+  
+  </html>
