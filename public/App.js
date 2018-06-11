@@ -8,6 +8,6 @@ angular.module('myApp', ['ui.router'])
         name: 'clientInfo',
         url: '/client',
         templateUrl: 'ClientInfo/ClientInfoPage.html',
-        controller: 'ClientInfoCtrl'
+        controller: 'ClientInfoCtrl as vm'
       })
 });

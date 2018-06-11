@@ -62,7 +62,10 @@ MongoClient.connect(url, (err, db) => {
       checkUser(userData, collection)
        .then(res => {
          userData.balance = res.balance? res.balance: 100;
-         socket.emit('login answer', JSON.stringify(userData));
+         socket.emit('login answer', () => {
+           console.log('emit')
+           JSON.stringify(userData)
+          });
         })
        .catch(err => console.error(err));
     });
