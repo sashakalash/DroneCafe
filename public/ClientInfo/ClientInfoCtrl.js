@@ -2,14 +2,17 @@
 
 angular
   .module('myApp')
-  .component('clientInfo', {
-    templateUrl: 'ClientInfo/ClientInfoPage.html',
-    controller: function(LoginService) {
-      LoginService
-        .getUser()
-        .then(user => {
-          this.user = user;
-      });
-      console.log(this.user)
+  .controller('ClientInfoCtrl', function(LoginService) {
+    let vm = this;
+    LoginService
+      .getUser()
+      .then(user => {
+        vm.user = user;
+    }).component('clientInfo', {
+    template: '<div>Имя: {{$ctrl.user.name}} Баланс: {{$ctrl.user.balance}}</div>',
+    controller: function () {},
+    bindings: {
+      user: '='
     }
-});
+    });
+  });
