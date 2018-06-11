@@ -1,0 +1,16 @@
+<div data-ng-hide="$ctrl.formSended">
+  <form name="$ctrl.loginForm" novalidate>
+    <div id="form-group">
+      <label for="">Имя</label>
+      <input type="text" class="form-control" name="nameInput" data-ng-model="$ctrl.user.name">
+    </div>
+    <div class="form-group" data-ng-class="{'has-error': $ctrl.loginForm.emailInput.$dirty && $ctrl.loginForm.emailInput.$invalid }">
+      <label for="">E-mail</label>
+      <input type="email" class="form-control" name="emailInput" data-ng-model="$ctrl.user.email">
+    </div>
+    <div data-ng-show="$ctrl.loginForm.emailInput.$dirty && $ctrl.loginForm.emailInput.$invalid">
+      <p data-ng-show="$ctrl.loginForm.emailInput.$invalid">Введите корректный email</p>
+    </div>
+    <button data-ng-click="$ctrl.formSubmit()">send</button>
+  </form>
+</div>

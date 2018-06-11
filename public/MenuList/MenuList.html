@@ -1,0 +1,18 @@
+<div class="list-group">
+    <div class="list-group-item" data-ng-repeat="menuItem in vm.menu">
+        <h4 class="list-group-item-heading">
+            <span>{{menuItem.title}}</span>
+        </h4>
+        <div class="list-group-item-heading">{{menuItem.image}}</div>
+        <p class="list-group-item-text">
+            Id: {{menuItem.id}}, rating: {{menuItem.rating}}
+        </p>
+        <ul class="list-group-item-sublist" data-ng-repeat="ingredient in vm.menu.ingredients">
+          <li>{{ingredient}}</li>
+        </ul>
+        <p class="list-group-item-price">
+          {{menuItem.price}}
+        </p>
+        <button ng-click="vm.addOrder(menuItem)">заказать</button>
+    </div>
+</div>

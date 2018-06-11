@@ -1,15 +1,16 @@
 'use strict';
 
 angular
-  .module('App')
-   
-    .controller('LoginPageCtrl', function() {
-      var vm = this;
-      const name = vm.name;
-      const email = vm.email;
-      return {name, email};
-    
-      vm.formSubmit = function() {
-        vm.loginForm.$setPristine();
+  .module('myApp')
+  .component('loginPage', {
+    templateUrl: 'Login/LoginPage.html',
+    controller: function(LoginService) {
+      this.formSended = false;
+      this.formSubmit = () => {
+        LoginService.loginUser(this.user);
+        this.loginForm.$setPristine();
+        this.formSended = true;
       };
-    });
+    }
+});
+   

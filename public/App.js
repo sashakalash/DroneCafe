@@ -1,5 +1,4 @@
-var myApp = angular.module("myApp", []);
+'use strict';
+
+angular.module("myApp", []);
  
-myApp.controller('myAppCtrl', function() {
- 
-});

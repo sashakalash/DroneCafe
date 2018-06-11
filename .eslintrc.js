@@ -1,6 +1,8 @@
-// module.exports = {
-//     "extends": "standard",
-//     "rules": {
-//         "semi": [1, "always"]
-//     }
-// };
+module.exports = {
+    "rules": {
+        "semi": [1, "always"]
+    },
+    "parserOptions": {
+        "ecmaVersion": 6
+      }
+};
