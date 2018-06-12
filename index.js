@@ -12,7 +12,6 @@ const io = SocketIO(http);
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.get('/', (req, res) => res.sendFile(INDEX));
-http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
@@ -59,6 +58,7 @@ MongoClient.connect(url, (err, db) => {
     console.log(`Couldn't connect to Mongo's server. Err: ${err}`);
   }
   const collection = db.collection('clients');
+  http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
   io.on('connection', socket => {
     socket.on('login user', user => {
