@@ -46,7 +46,12 @@ const checkUser = (user, db) => {
         }
       });
     });
-  
+};
+
+const refund = (userInfo, db) => {
+  return new Promise((done, fail) => {
+    db.update({email: userInfo.email}, )
+  });
 };
 
 MongoClient.connect(url, (err, db) => {
@@ -56,7 +61,7 @@ MongoClient.connect(url, (err, db) => {
   const collection = db.collection('clients');
 
   io.on('connection', socket => {
-    socket.on('login user', (user) => {
+    socket.on('login user', user => {
       const userData = JSON.parse(user);
       checkUser(userData, collection)
        .then(res => {
@@ -65,6 +70,11 @@ MongoClient.connect(url, (err, db) => {
         })
        .catch(err => console.error(err));
     });
+    socket.on('refund balance', data => {
+      const userInfo = JSON.parse(data);
+      refund(userInfo, collection);
+    });
+    socket.on('error', err => console.log(err));
   });
 });
 

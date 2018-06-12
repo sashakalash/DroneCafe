@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp', ['ui.router', 'btford.socket-io'])
+angular.module('myApp', ['ui.router'])
   .config(function($stateProvider) {
 
     $stateProvider
@@ -9,15 +9,11 @@ angular.module('myApp', ['ui.router', 'btford.socket-io'])
         url: '/client',
         templateUrl: 'ClientInfo/ClientInfoPage.html',
         controller: 'ClientInfoCtrl as vm'
+      })
+      .state({
+        name: 'menu',
+        url: '/menu',
+        templateUrl: 'Menu/Menu.html',
+        controller: 'MenuCtrl as vm'
       });
-  })
-  angular.module('myApp')
-  .factory('mySocket', SocketFactory => {
-    console.log('factory')
-    const myIOSocket = io.connect('https://netology-socket-io.herokuapp.com');
-
-    mySocket = SocketFactory({ioSocket: myIOSocket});
-    
-    return mySocket;
-
   });

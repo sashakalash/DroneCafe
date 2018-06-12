@@ -1,0 +1,15 @@
+<div>
+  <table>
+    <tr>
+      <td width="85%">Название</td>
+      <td width="15%">Статус приготовления</td>
+      <td></td>
+    </tr>
+    <tr data-ng-repeat="dish in $ctrl.dishes">
+        <td colspan="4">
+            <order-item dish="dish"></order-item>
+        </td>
+    </tr>
+  </table>
+  <button data-ng-click="$ctrl.getMenu()" ui-sref="Menu">Выбрать блюдо</button>
+</div>

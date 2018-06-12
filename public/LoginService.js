@@ -10,13 +10,15 @@ angular
       },
       getUser: () => {
         return new Promise((done, fail) => {
-          socket.on('error', err => console.log(err));
           socket.on('login answer', (err, data) => {
             if(err){fail(err)}
             console.log(data, 'data')
             done(JSON.parse(data))
           });
         });
+      },
+      refund: (newBalance, email) => {
+        socket.emit('refund balance', JSON.stringify({newBalance: newBalance, email: email}));
       }
     };
   });
