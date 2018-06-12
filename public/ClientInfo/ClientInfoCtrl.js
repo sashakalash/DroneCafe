@@ -7,14 +7,13 @@ angular
     LoginService
       .getUser()
       .then(user => {
-        console.log('ok')
         vm.user = user;
-        console.log(user, vm.user)
-      });
+      })
+      .catch(err => console.log(err))
     }).component('clientInfo', {
     template: '<div>Имя: {{$ctrl.user.name}}, Баланс: {{$ctrl.user.balance}}</div>',
     controller: function () {},
     bindings: {
-      user: '='
+      user: '<'
     }
   });

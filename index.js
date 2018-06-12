@@ -2,22 +2,21 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const bodyParser = require('body-parser');
+const SocketIO = require('socket.io');
+
+const PORT = process.env.PORT || 3000;
+const path = require('path');
+const INDEX = path.join(__dirname, '/index.html');
+const io = SocketIO(http);
+
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.get('/', (req, res) => res.sendFile(INDEX));
+http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const url = 'mongodb://localhost:27017/ClientsDB';
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-http.listen(3000, () => {
-  console.log('listening on *:3000');
-});
-
-const io = require('socket.io')(http);
 
 const addUser = (user, db) => {
   return new Promise((done, fail) => {
@@ -62,10 +61,7 @@ MongoClient.connect(url, (err, db) => {
       checkUser(userData, collection)
        .then(res => {
          userData.balance = res.balance? res.balance: 100;
-         socket.emit('login answer', () => {
-           console.log('emit')
-           JSON.stringify(userData)
-          });
+         socket.emit('login answer', JSON.stringify(userData));
         })
        .catch(err => console.error(err));
     });

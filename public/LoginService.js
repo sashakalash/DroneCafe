@@ -10,9 +10,12 @@ angular
       },
       getUser: () => {
         return new Promise((done, fail) => {
-          socket.on('login answer', data => {
-            console.log(data)
-            done(JSON.parse(data))});
+          socket.on('error', err => console.log(err));
+          socket.on('login answer', (err, data) => {
+            if(err){fail(err)}
+            console.log(data, 'data')
+            done(JSON.parse(data))
+          });
         });
       }
     };
