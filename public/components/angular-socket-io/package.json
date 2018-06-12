@@ -1,36 +1,33 @@
 {
-  "_args": [
-    [
-      "angular-socket-io@0.7.0",
-      "/Users/kalash/Git/DroneCafe"
-    ]
-  ],
-  "_development": true,
-  "_from": "angular-socket-io@0.7.0",
+  "_from": "angular-socket-io@^0.7.0",
   "_id": "angular-socket-io@0.7.0",
   "_inBundle": false,
   "_integrity": "sha1-eKjWCqVxlKAzC8MTfU2hCGmLl88=",
   "_location": "/angular-socket-io",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "angular-socket-io@0.7.0",
+    "raw": "angular-socket-io@^0.7.0",
     "name": "angular-socket-io",
     "escapedName": "angular-socket-io",
-    "rawSpec": "0.7.0",
+    "rawSpec": "^0.7.0",
     "saveSpec": null,
-    "fetchSpec": "0.7.0"
+    "fetchSpec": "^0.7.0"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/angular-socket-io/-/angular-socket-io-0.7.0.tgz",
-  "_spec": "0.7.0",
+  "_shasum": "78a8d60aa57194a0330bc3137d4da108698b97cf",
+  "_spec": "angular-socket-io@^0.7.0",
   "_where": "/Users/kalash/Git/DroneCafe",
   "author": {
     "name": "Brian Ford"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "Bower Component for using AngularJS with [Socket.IO](http://socket.io/), based on [this](http://briantford.com/blog/angular-socket-io.html).",
   "devDependencies": {
     "angular": "^1.3.5",

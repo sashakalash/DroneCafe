@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp', ['ui.router'])
+angular.module('myApp', ['ui.router', 'btford.socket-io'])
   .config(function($stateProvider) {
 
     $stateProvider
@@ -16,4 +16,13 @@ angular.module('myApp', ['ui.router'])
         templateUrl: 'Menu/Menu.html',
         controller: 'MenuCtrl as vm'
       });
+  })
+  .factory('mySocket', socketFactory => {
+    const myIoSocket = io.connect();
+
+    const mySocket = socketFactory({
+      ioSocket: myIoSocket
+    });
+
+    return mySocket;
   });

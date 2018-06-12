@@ -2,14 +2,18 @@
 
 angular
   .module('myApp')
-  .controller('ClientInfoCtrl', function(LoginService) {
+  .controller('ClientInfoCtrl', function(mySocket) {
     const vm = this;
-    LoginService
-      .getUser()
-      .then(user => {
-        vm.user = user;
-      })
-      .catch(err => console.log(err))
+    mySocket.on('login answer', data => {
+      console.log(data, 'data angular socket')
+    });
+    mySocket.on('anybody home?', () => console.log('yep'))
+    // LoginService
+    //   .getUser()
+    //   .then(user => {
+    //     vm.user = user;
+    //   })
+    //   .catch(err => console.log(err))
     vm.refund = () => {
       vm.user.balance += 100;
     };
