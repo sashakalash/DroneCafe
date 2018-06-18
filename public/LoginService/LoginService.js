@@ -2,12 +2,12 @@
 
 angular
   .module('myApp')
-  .factory('LoginService', ($http) => {
+  .factory('LoginService', function($http) {
     return {
       loginUser: (userData) => {
         return $http({
           method: 'POST',
-          url: '/login',
+          url: '/auth',
           data: JSON.stringify(userData)
         });
       }

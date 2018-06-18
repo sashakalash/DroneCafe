@@ -1,8 +1,9 @@
 <div>
+  <client-info></client-info>
   <table>
     <tr>
       <td width="85%">Название</td>
-      <td width="15%">Статус приготовления</td>
+      <td width="15%">Статус</td>
       <td></td>
     </tr>
     <tr data-ng-repeat="dish in $ctrl.dishes">
@@ -11,5 +12,6 @@
         </td>
     </tr>
   </table>
-  <button data-ng-click="$ctrl.getMenu()" ui-sref="menu">Выбрать блюдо</button>
+  <button data-ng-click="vm.showMenu()" data-ng-bind="vm.menuBtnText"></button>
+  <menu data-ng-show="vm.isShowMenu"></menu>
 </div>

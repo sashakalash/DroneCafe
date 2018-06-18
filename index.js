@@ -33,8 +33,7 @@ const addUser = (user, db) => {
 
 const checkUser = (user, db) => {
   return new Promise((done, fail) => {
-      db.findOne({email: user.email},
-      (err, result) => {
+      db.findOne({email: user.email}, (err, result) => {
         if (err) {
           fail(err);
         } else if(result) {
@@ -61,13 +60,14 @@ MongoClient.connect(url, (err, db) => {
   const collection = db.collection('clients');
   http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-  app.post('/login', (req, res) => {
-    const userData = JSON.parse(req.data);
+  app.post('/auth', (req, res) => {
+    const userData = req.body;
     checkUser(userData, collection)
        .then(result => {
          userData.balance = result.balance? result.balance: 100;
-         res.json(userData);
-        });
+         res.status(200).json(userData);
+        })
+        .catch(() => res.status(400));
   });
 
 

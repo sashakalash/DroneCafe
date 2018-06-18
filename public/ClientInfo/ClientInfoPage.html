@@ -1,5 +1,4 @@
-<div ui-view="">
-  <client-info user="vm.user"></client-info>
-  <button data-ng-click="vm.refund()">Пополнить</button>
-  <order-list></order-list>
+<div>
+  <div>Имя: {{$ctrl.user.name}}, Баланс: {{$ctrl.user.balance}}</div>
+  <button data-ng-click="$ctrl.refund()">Пополнить</button>
 </div>

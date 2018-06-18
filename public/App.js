@@ -14,13 +14,14 @@ angular.module('myApp', ['ui.router', 'btford.socket-io', 'ngStorage'])
         name: 'loginPage',
         url: '/login',
         templateUrl: 'Login/LoginPage.html',
-        controller: 'LoginPageCtrl'
+        controller: 'LoginPageCtrl as vm'
       })
       .state({
-        name: 'clientInfo',
-        url: '/client',
-        templateUrl: 'ClientInfo/ClientInfoPage.html',
-        controller: 'ClientInfoCtrl'
+        name: 'OrderPage',
+        url: '/order',
+        templateUrl: 'OrderList/OrderList.html',
+        controller: 'OrderListCtrl as vm'
+
       })
       .state({
         name: 'menu',

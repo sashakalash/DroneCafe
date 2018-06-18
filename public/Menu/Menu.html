@@ -1,18 +1,19 @@
 <div class="list-group">
-    <div class="list-group-item" data-ng-repeat="menuItem in vm.menu">
-        <h4 class="list-group-item-heading">
-            <span>{{menuItem.title}}</span>
-        </h4>
-        <img data-ng-src="{{menuItem.image}}" class="list-group-item-heading">
-        <p class="list-group-item-text">
-            Id: {{menuItem.id}}, rating: {{menuItem.rating}}
-        </p>
-        <ul class="list-group-item-sublist" data-ng-repeat="ingredient in vm.menu.ingredients">
-          <li>{{ingredient}}</li>
-        </ul>
-        <p class="list-group-item-price">
-          {{menuItem.price}}
-        </p>
-        <button ng-click="vm.addOrder(menuItem)">заказать</button>
-    </div>
+  <div class="list-group-item" data-ng-repeat="menuItem in $ctrl.menu">
+    <h4 class="list-group-item-heading">
+      <span>Блюдо: {{menuItem.title}}</span>
+    </h4>
+    <img data-ng-src="{{menuItem.image}}" class="list-group-item-heading">
+    <p class="list-group-item-text">
+      Id: {{menuItem.id}}, Рейтинг блюда: {{menuItem.rating}}
+    </p>
+    <p>Ингредиенты:</p>
+    <ul class="list-group-item-sublist" data-ng-repeat="ingredient in menuItem.ingredients track by $index">
+      <li>{{ingredient}}</li>
+    </ul>
+    <p class="list-group-item-price">
+      Цена: {{menuItem.price}}
+    </p>
+    <button data-ng-click="$ctrl.addOrder(menuItem)" data-ng-bind="$ctrl.orderBtnData(menuItem.price)"></button>
+  </div>
 </div>
