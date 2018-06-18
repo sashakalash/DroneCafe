@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.get('/', (req, res) => res.sendFile(INDEX));
 
+
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const url = 'mongodb://localhost:27017/ClientsDB';
@@ -60,21 +61,17 @@ MongoClient.connect(url, (err, db) => {
   const collection = db.collection('clients');
   http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-  io.on('connection', socket => {
-    socket.on('login user', user => {
-      const userData = JSON.parse(user);
-      checkUser(userData, collection)
-       .then(res => {
-         userData.balance = res.balance? res.balance: 100;
-         socket.emit('login answer', JSON.stringify(userData));
-        })
-       .catch(err => console.error(err));
-    });
-    // socket.on('refund balance', data => {
-    //   const userInfo = JSON.parse(data);
-    //   refund(userInfo, collection);
-    // });
-    socket.on('error', err => console.log(err));
+  app.post('/login', (req, res) => {
+    const userData = JSON.parse(req.data);
+    checkUser(userData, collection)
+       .then(result => {
+         userData.balance = result.balance? result.balance: 100;
+         res.json(userData);
+        });
   });
+
+
+  io.on('connection', socket => {});
+      
 });
 

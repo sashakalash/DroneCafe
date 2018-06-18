@@ -1,20 +1,32 @@
 'use strict';
 
-angular.module('myApp', ['ui.router', 'btford.socket-io'])
+angular.module('myApp', ['ui.router', 'btford.socket-io', 'ngStorage'])
+  .run(($localStorage, $state, $timeout) => {
+    if(!$localStorage.user) {
+      $timeout(() => $state.go('loginPage'));
+    }
+    return;
+  })
   .config(function($stateProvider) {
 
     $stateProvider
       .state({
+        name: 'loginPage',
+        url: '/login',
+        templateUrl: 'Login/LoginPage.html',
+        controller: 'LoginPageCtrl'
+      })
+      .state({
         name: 'clientInfo',
         url: '/client',
         templateUrl: 'ClientInfo/ClientInfoPage.html',
-        controller: 'ClientInfoCtrl as vm'
+        controller: 'ClientInfoCtrl'
       })
       .state({
         name: 'menu',
         url: '/menu',
         templateUrl: 'Menu/Menu.html',
-        controller: 'MenuCtrl as vm'
+        controller: 'MenuCtrl'
       });
   })
   .factory('mySocket', socketFactory => {
