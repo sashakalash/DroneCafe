@@ -1,11 +1,16 @@
 'use strict';
 
-angular.module('myApp', ['ui.router', 'btford.socket-io', 'ngStorage'])
-  .run(($localStorage, $state, $timeout) => {
-    if(!$localStorage.user) {
+angular.module('myApp', [
+  'ui.router', 
+  'btford.socket-io', 
+  'ngStorage', 
+])
+  .run(($sessionStorage, $localStorage, $state, $timeout) => {
+    $state.reload('loginPage');
+    if(!($sessionStorage.user && $localStorage.user)) {
       $timeout(() => $state.go('loginPage'));
     }
-    return;
+    $state.go('orderPager');
   })
   .config(function($stateProvider) {
 
@@ -17,7 +22,7 @@ angular.module('myApp', ['ui.router', 'btford.socket-io', 'ngStorage'])
         controller: 'LoginPageCtrl as vm'
       })
       .state({
-        name: 'OrderPage',
+        name: 'orderPage',
         url: '/order',
         templateUrl: 'OrderList/OrderList.html',
         controller: 'OrderListCtrl as vm'
@@ -27,7 +32,13 @@ angular.module('myApp', ['ui.router', 'btford.socket-io', 'ngStorage'])
         name: 'menu',
         url: '/menu',
         templateUrl: 'Menu/Menu.html',
-        controller: 'MenuCtrl'
+        controller: 'MenuCtrl as vm'
+      })
+      .state({
+        name: 'kitchen',
+        url: '/kitchen',
+        templateUrl: 'Kitchen/KitchenPage.html',
+        controller: 'KitchenCtrl as vm'
       });
   })
   .factory('mySocket', socketFactory => {
@@ -38,4 +49,4 @@ angular.module('myApp', ['ui.router', 'btford.socket-io', 'ngStorage'])
     });
 
     return mySocket;
-  });
+  })

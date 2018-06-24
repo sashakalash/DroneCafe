@@ -1,9 +1,15 @@
-<div class="list-group">
-  <div class="list-group-item" data-ng-repeat="menuItem in $ctrl.menu">
+<a href="#!/order">Order</a>
+<a href="#!/kitchen">Kitchen</a>
+<client-info></client-info>
+<div class="list-group"> 
+  <div class="list-group-item" data-ng-repeat="menuItem in vm.menu">
     <h4 class="list-group-item-heading">
       <span>Блюдо: {{menuItem.title}}</span>
     </h4>
-    <img data-ng-src="{{menuItem.image}}" class="list-group-item-heading">
+    <button ng-disabled="vm.checked" data-ng-click="vm.addOrder(menuItem)" data-ng-bind="vm.orderBtnData(menuItem.price)"></button>
+    <div>
+      <img data-ng-src="{{menuItem.image}}" class="list-group-item-heading">
+    </div>
     <p class="list-group-item-text">
       Id: {{menuItem.id}}, Рейтинг блюда: {{menuItem.rating}}
     </p>
@@ -14,6 +20,5 @@
     <p class="list-group-item-price">
       Цена: {{menuItem.price}}
     </p>
-    <button data-ng-click="$ctrl.addOrder(menuItem)" data-ng-bind="$ctrl.orderBtnData(menuItem.price)"></button>
   </div>
 </div>

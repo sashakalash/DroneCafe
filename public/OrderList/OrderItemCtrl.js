@@ -4,7 +4,5 @@ angular.module('myApp')
     bindings: {
         dish: '<',
     },
-    controller: function() {
-        const vm = this;
-    }
+    controller: function() {}
   });

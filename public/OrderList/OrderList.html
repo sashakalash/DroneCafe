@@ -1,4 +1,5 @@
 <div>
+  <a href="#!/kitchen">Kitchen</a>
   <client-info></client-info>
   <table>
     <tr>
@@ -6,12 +7,13 @@
       <td width="15%">Статус</td>
       <td></td>
     </tr>
-    <tr data-ng-repeat="dish in $ctrl.dishes">
+    <tr data-ng-repeat="dish in vm.dishes track by $index">
         <td colspan="4">
             <order-item dish="dish"></order-item>
         </td>
     </tr>
   </table>
-  <button data-ng-click="vm.showMenu()" data-ng-bind="vm.menuBtnText"></button>
-  <menu data-ng-show="vm.isShowMenu"></menu>
+  <div data-ng-show="isDelivered">{{vm.orderDelivered}}</div>
+  <div data-ng-show="isDelveryFailed">{{vm.ordersDeliveryFailed}}</div>
+  <button data-ng-click="vm.showMenu()">Выбрать блюдо</button>
 </div>
