@@ -1,6 +1,7 @@
 <div>
   <a href="#!/kitchen">Kitchen</a>
   <client-info></client-info>
+  <p>Список заказов</p>
   <table>
     <tr>
       <td width="85%">Название</td>
@@ -13,7 +14,18 @@
         </td>
     </tr>
   </table>
-  <div data-ng-show="isDelivered">{{vm.orderDelivered}}</div>
-  <div data-ng-show="isDelveryFailed">{{vm.ordersDeliveryFailed}}</div>
   <button data-ng-click="vm.showMenu()">Выбрать блюдо</button>
+  <p>Готово</p>
+  <table>
+      <tr>
+        <td width="85%">Название</td>
+        <td width="15%">Статус</td>
+        <td></td>
+      </tr>
+      <tr data-ng-repeat="dish in vm.orderDelivered track by $index">
+          <td colspan="4">
+              <order-item dish="dish"></order-item>
+          </td>
+      </tr>
+    </table>
 </div>

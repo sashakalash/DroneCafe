@@ -1,16 +1,23 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('KitchenCtrl', function(OrderService, $sessionStorage, mySocket){
+  .controller('KitchenCtrl', function(
+    OrderService, 
+    $sessionStorage, 
+    mySocket, 
+    $q
+  ){
     const vm = this;
-    OrderService.getOrderList()
-      .then(data => vm.orderedDishes = data.data)
-      .catch(err => console.error(err));
-   
-    mySocket.on('cookingListChanged', () => {
-      OrderService.getCookingList()
-      .then(data => vm.cookingDishes = data.data)
-      .catch(err => console.error(err));
+    const reloadLists = () => $q
+      .all([OrderService.getOrderList(), OrderService.getCookingList()])
+      .then(results => {
+        vm.orderedDishes = results[0].data;
+        vm.cookingDishes = results[1].data;
+      });
+    reloadLists();
+
+    mySocket.on('reloadList', () => {
+      reloadLists();
     });
 
     vm.startCook = dish => {

@@ -13,14 +13,9 @@ angular.module('myApp')
     vm.menuBtnText = 'Выбрать блюдо';
     vm.showMenu = () => $state.go('menu');
 
+    vm.orderDelivered = [];
     mySocket.on('orderDelivered', data => {
-      vm.isDelivered = true;
-      vm.orderDelivered = data;
-    });
-
-    mySocket.on('ordersDeliveryFailed', data => {
-      vm.isDelveryFailed = true;
-      vm.ordersDeliveryFailed = data;
+      vm.orderDelivered.push(data);
     });
   });
 

@@ -68,9 +68,7 @@ const getOrderedList = db => {
 
 const addCookingDish = (dish, cookDb, orderedDb) => {
   return new Promise((done, fail) => {
-    console.log(dish['_id'])
     const selector = {_id: new ObjectID(dish['_id'])};
-    console.log(selector)
     orderedDb.remove(selector);
     cookDb.insert({title: dish.title, status: dish.status}, (err, result) => {
       err? fail(err): done(result);
@@ -87,8 +85,12 @@ const getCookingList = db => {
 };
 
 const deleteFromList = (id, db) => {
-  const selector = {_id: new ObjectID(id)};
-  db.remove(selector);
+  return new Promise((done, fail) => {
+    const selector = {_id: new ObjectID(id)};
+    db.remove(selector, (err, res) => {
+      err? fail(err): done(res);
+    });
+  });
 };
 
 MongoClient.connect(url, (err, db) => {
@@ -123,7 +125,7 @@ MongoClient.connect(url, (err, db) => {
   });
 
   io.on('connection', socket => {
-
+    
     app.post('/order', (req, res) => {
       addOrder(req.body, addedOrders)
         .then(result => {
@@ -135,8 +137,8 @@ MongoClient.connect(url, (err, db) => {
     app.post('/cook', (req, res) => {
       addCookingDish(req.body, cookingOrders, addedOrders)
         .then(result => {
+          socket.emit('reloadList');
           res.status(200).json(result);
-          socket.emit('cookingListChanged');
         })
         .catch(err => console.error(err));
     });
@@ -144,7 +146,9 @@ MongoClient.connect(url, (err, db) => {
     app.post('/delivery', (req, res) => {
       const user = req.body.user;
       const dish = req.body.dish;
-      deleteFromList(dish.id, cookingOrders);
+      deleteFromList(dish['_id'], cookingOrders)
+        .then(() => socket.emit('reloadList'))
+        .catch(err => console.error(err));
       drone.deliver(user, dish)  
         .then(() => {
           dish.status = 'Доставлено';
@@ -152,7 +156,7 @@ MongoClient.connect(url, (err, db) => {
         })
         .catch(() => {
           dish.status = 'Возникли сложности';
-          socket.emit('ordersDeliveryFailed', dish);
+          socket.emit('orderDelivered', dish);
         });  
       
     });
