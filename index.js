@@ -8,11 +8,11 @@ const drone = require('netology-fake-drone-api');
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const INDEX = path.join(__dirname, '/index.html');
-const io = SocketIO(http);
 
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static('app'));
 app.get('/', (req, res) => res.sendFile(INDEX));
+
 
 
 
@@ -100,31 +100,33 @@ MongoClient.connect(url, (err, db) => {
   const clients = db.collection('clients');
   const addedOrders = db.collection('addedOrders');
   const cookingOrders = db.collection('cookingOrders');
-  http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-  app.post('/auth', (req, res) => {
-    const userData = req.body;
-    checkUser(userData, clients)
-       .then(result => {
-         userData.balance = result.balance? result.balance: 100;
-         res.status(200).json(userData);
-        })
-        .catch(err => console.error(err));
-  });
-
-  app.get('/order', (req, res) => {
-    getOrderedList(addedOrders)
-      .then(result => res.status(200).json(result))
-      .catch(err => console.error(err));
-  });
-  
-  app.get('/cook', (req, res) => {
-    getCookingList(cookingOrders)
-      .then(result => res.status(200).json(result))
-      .catch(err => console.error(err));
-  });
+  const server = app.listen(PORT, () => console.log(`listening on ${PORT}`));
+  const io = SocketIO.listen(server);
 
   io.on('connection', socket => {
+
+    app.post('/auth', (req, res) => {
+      const userData = req.body;
+      checkUser(userData, clients)
+         .then(result => {
+           userData.balance = result.balance? result.balance: 100;
+           res.status(200).json(userData);
+          })
+          .catch(err => console.error(err));
+    });
+  
+    app.get('/order', (req, res) => {
+      getOrderedList(addedOrders)
+        .then(result => res.status(200).json(result))
+        .catch(err => console.error(err));
+    });
+    
+    app.get('/cook', (req, res) => {
+      getCookingList(cookingOrders)
+        .then(result => res.status(200).json(result))
+        .catch(err => console.error(err));
+    });
     
     app.post('/order', (req, res) => {
       addOrder(req.body, addedOrders)
@@ -158,7 +160,8 @@ MongoClient.connect(url, (err, db) => {
           dish.status = 'Возникли сложности';
           socket.emit('orderDelivered', dish);
         });  
-      
     });
   });
 });
+
+module.exports = app;
