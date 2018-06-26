@@ -1,13 +1,15 @@
-const supertest = require('supertest');
-const expect = require('chai').expect;
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const expect = chai.expect;
+chai.use(chaiHttp);
+const rootUrl = 'http://localhost:3000';
 
 describe('REST API', () => {
   let server;
   before(() => {
+    server = chai.request(rootUrl);
     const call = require('../index');
-    call()
-      .then(() => server = supertest.agent('http://localhost:3000'))
-      .catch(err => console.log(err));
+    call();
   });
   it('GET /order returned status 200 & array', (done) => {
     server
