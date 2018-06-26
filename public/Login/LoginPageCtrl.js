@@ -2,7 +2,6 @@
 
 angular.module('myApp')
   .controller('LoginPageCtrl', function(LoginService, $sessionStorage, $localStorage, $state) {
-    console.log('ok')
     const vm = this;
     vm.formSended = false;
     vm.formSubmit = () => {

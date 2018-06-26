@@ -6,7 +6,6 @@ angular.module('myApp', [
   'ngStorage', 
 ])
   .run(($sessionStorage, $localStorage, $state, $timeout) => {
-    console.log('ok')
     $state.reload('loginPage');
     if(!($sessionStorage.user && $localStorage.user)) {
       $timeout(() => $state.go('loginPage'));
