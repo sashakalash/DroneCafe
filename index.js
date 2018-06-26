@@ -11,11 +11,8 @@ const INDEX = path.join(__dirname, '/index.html');
 const io = SocketIO(http);
 
 app.use(bodyParser.json());
-app.use(express.static('app'));
+app.use(express.static('public'));
 app.get('/', (req, res) => res.sendFile(INDEX));
-
-
-
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
@@ -128,7 +125,7 @@ MongoClient.connect(url, (err, db) => {
         .then(result => res.status(200).json(result))
         .catch(err => console.error(err));
     });
-    
+
     app.post('/order', (req, res) => {
       addOrder(req.body, addedOrders)
         .then(result => {
