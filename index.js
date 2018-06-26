@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.get('/', (req, res) => res.sendFile(INDEX));
 
+
+
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const url = 'mongodb://localhost:27017/ClientsDB';
@@ -66,9 +68,7 @@ const getOrderedList = db => {
 
 const addCookingDish = (dish, cookDb, orderedDb) => {
   return new Promise((done, fail) => {
-    console.log(dish['_id'])
     const selector = {_id: new ObjectID(dish['_id'])};
-    console.log(selector)
     orderedDb.remove(selector);
     cookDb.insert({title: dish.title, status: dish.status}, (err, result) => {
       err? fail(err): done(result);
@@ -102,30 +102,30 @@ MongoClient.connect(url, (err, db) => {
   const cookingOrders = db.collection('cookingOrders');
   http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-  io.on('connection', socket => {
+  app.post('/auth', (req, res) => {
+    const userData = req.body;
+    checkUser(userData, clients)
+       .then(result => {
+         userData.balance = result.balance? result.balance: 100;
+         res.status(200).json(userData);
+        })
+        .catch(err => console.error(err));
+  });
 
-    app.post('/auth', (req, res) => {
-      const userData = req.body;
-      checkUser(userData, clients)
-         .then(result => {
-           userData.balance = result.balance? result.balance: 100;
-           res.status(200).json(userData);
-          })
-          .catch(err => console.error(err));
-    });
+  app.get('/order', (req, res) => {
+    getOrderedList(addedOrders)
+      .then(result => res.status(200).json(result))
+      .catch(err => console.error(err));
+  });
   
-    app.get('/order', (req, res) => {
-      getOrderedList(addedOrders)
-        .then(result => res.status(200).json(result))
-        .catch(err => console.error(err));
-    });
-    
-    app.get('/cook', (req, res) => {
-      getCookingList(cookingOrders)
-        .then(result => res.status(200).json(result))
-        .catch(err => console.error(err));
-    });
+  app.get('/cook', (req, res) => {
+    getCookingList(cookingOrders)
+      .then(result => res.status(200).json(result))
+      .catch(err => console.error(err));
+  });
 
+  io.on('connection', socket => {
+    
     app.post('/order', (req, res) => {
       addOrder(req.body, addedOrders)
         .then(result => {
@@ -161,5 +161,3 @@ MongoClient.connect(url, (err, db) => {
     });
   });
 });
-
-module.exports = app;
