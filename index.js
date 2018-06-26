@@ -158,7 +158,6 @@ MongoClient.connect(url, (err, db) => {
           dish.status = 'Возникли сложности';
           socket.emit('orderDelivered', dish);
         });  
-      
     });
   });
 });
