@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
+const assert = chai.assert;
 chai.use(chaiHttp);
 const rootUrl = 'http://localhost:3000';
 
@@ -18,7 +19,7 @@ describe('REST API', () => {
       .set('Content-Type', 'application/json')
       .end((err, res) => {
         if (err) { 
-          console.error(err)
+          console.error(err);
           done(); 
         }
         assert.equal(res.status, 200);
