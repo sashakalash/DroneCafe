@@ -8,6 +8,7 @@ const drone = require('netology-fake-drone-api');
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 const INDEX = path.join(__dirname, '/index.html');
+const io = SocketIO(http);
 
 app.use(bodyParser.json());
 app.use(express.static('app'));
@@ -68,7 +69,9 @@ const getOrderedList = db => {
 
 const addCookingDish = (dish, cookDb, orderedDb) => {
   return new Promise((done, fail) => {
+    console.log(dish['_id'])
     const selector = {_id: new ObjectID(dish['_id'])};
+    console.log(selector)
     orderedDb.remove(selector);
     cookDb.insert({title: dish.title, status: dish.status}, (err, result) => {
       err? fail(err): done(result);
@@ -100,9 +103,7 @@ MongoClient.connect(url, (err, db) => {
   const clients = db.collection('clients');
   const addedOrders = db.collection('addedOrders');
   const cookingOrders = db.collection('cookingOrders');
-
-  const server = app.listen(PORT, () => console.log(`listening on ${PORT}`));
-  const io = SocketIO.listen(server);
+  http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
   io.on('connection', socket => {
 
@@ -160,6 +161,7 @@ MongoClient.connect(url, (err, db) => {
           dish.status = 'Возникли сложности';
           socket.emit('orderDelivered', dish);
         });  
+      
     });
   });
 });

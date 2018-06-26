@@ -13,7 +13,7 @@ angular.module('myApp')
           $sessionStorage.user = res.data;
           $state.go('orderPage');
         })
-        .catch(err => console.log(err.message));
+        .catch(err => console.log(err));
     vm.loginForm.$setPristine();
     vm.formSended = true;
   };
