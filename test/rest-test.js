@@ -1,24 +1,19 @@
 const chai = require('chai');
-const chaiHttp = require('chai-http');
+const supertest = require('supertest');
 const expect = chai.expect;
 const assert = chai.assert;
-chai.use(chaiHttp);
-const rootUrl = 'http://localhost:3000';
+const app = require('../index');
+
 
 describe('REST API', () => {
-  let server;
   before(() => {
-    server = chai.request(rootUrl);
-    const app = require('../index');
-    app.listen();
   });
-  it('GET /order returned status 200 & array', (done) => {
-    server
+  it('GET /order returned status 200 & array', done => {
+    supertest(app)
       .get('/order')
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
-        console.log(res)
         if (err) { 
           console.error(err);
           done(); 
