@@ -101,7 +101,7 @@ MongoClient.connect(url, (err, db) => {
   const addedOrders = db.collection('addedOrders');
   const cookingOrders = db.collection('cookingOrders');
   http.listen(PORT, () => console.log(`listening on ${PORT}`));
-  
+
   let socket;
   io.on('connection', connect => socket = connect);
 
@@ -133,40 +133,31 @@ MongoClient.connect(url, (err, db) => {
       })
       .catch(err => console.error(err));
   }); 
-    
-    // app.post('/order', (req, res) => {
-    //   addOrder(req.body, addedOrders)
-    //     .then(result => {
-    //       res.status(200).json(result);
-    //     })
-    //     .catch(err => console.error(err));
-    // }); 
 
-    app.post('/cook', (req, res) => {
-      addCookingDish(req.body, cookingOrders, addedOrders)
-        .then(result => {
-          socket.emit('reloadList');
-          res.status(200).json(result);
-        })
-        .catch(err => console.error(err));
-    });
+  app.post('/cook', (req, res) => {
+    addCookingDish(req.body, cookingOrders, addedOrders)
+      .then(result => {
+         socket.emit('reloadList');
+         res.status(200).json(result);
+      })
+      .catch(err => console.error(err));
+  });
 
-    app.post('/delivery', (req, res) => {
-      const user = req.body.user;
-      const dish = req.body.dish;
-      deleteFromList(dish['_id'], cookingOrders)
-        .then(() => socket.emit('reloadList'))
-        .catch(err => console.error(err));
-      drone.deliver(user, dish)  
-        .then(() => {
-          dish.status = 'Доставлено';
-          socket.emit('orderDelivered', dish);
-        })
-        .catch(() => {
-          dish.status = 'Возникли сложности';
-          socket.emit('orderDelivered', dish);
-        });  
-    });
-  
+  app.post('/delivery', (req, res) => {
+    const user = req.body.user;
+    const dish = req.body.dish;
+    deleteFromList(dish['_id'], cookingOrders)
+      .then(() => socket.emit('reloadList'))
+      .catch(err => console.error(err));
+    drone.deliver(user, dish)
+      .then(() => {
+        dish.status = 'Доставлено';
+        socket.emit('orderDelivered', dish);
+      })
+      .catch(() => {
+        dish.status = 'Возникли сложности';
+        socket.emit('orderDelivered', dish);
+      });
+  });
 });
 module.exports = app;
