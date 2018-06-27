@@ -108,11 +108,11 @@ MongoClient.connect(url, (err, db) => {
   app.post('/auth', (req, res) => {
     const userData = req.body;
     checkUser(userData, clients)
-       .then(result => {
+      .then(result => {
          userData.balance = result.balance? result.balance: 100;
          res.status(200).json(userData);
-        })
-        .catch(err => console.error(err));
+      })
+      .catch(err => console.error(err));
   });
 
   app.get('/order', (req, res) => {
