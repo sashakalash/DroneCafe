@@ -1,17 +1,16 @@
 const chai = require('chai');
-const supertest = require('supertest');
+let chaiHttp = require('chai-http');
+// const supertest = require('supertest');
 const expect = chai.expect;
 const assert = chai.assert;
 const app = require('../index');
+chai.use(chaiHttp);
+
 
 
 describe('REST API', () => {
-  let server;
-  before(() => {
-    server = supertest(app);
-  });
   it('GET /order returned status 200 & array', done => {
-    server
+    chai.request(app)
       .get('/order')
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
@@ -27,12 +26,9 @@ describe('REST API', () => {
       });
   });
   it('POST /order returned status 200 & object with status "Заказано"', done => {
-    server
+    chai.request(app)
       .post('/order')
-      .send({
-        title: 'cake',
-        status: 'Заказано'
-      })
+      .send({title: 'cake', status: 'Заказано'})
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .end((err, res) => {
@@ -43,8 +39,7 @@ describe('REST API', () => {
         assert.equal(res.status, 200);
         assert.ok(res.body);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('status').to.be('Заказано');
-        assert.equal(res.body.status, 'Заказано');
+        expect(res.body).to.have.property('result').to.have.property('ok');
         done();
     });
   });

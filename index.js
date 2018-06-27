@@ -101,6 +101,9 @@ MongoClient.connect(url, (err, db) => {
   const addedOrders = db.collection('addedOrders');
   const cookingOrders = db.collection('cookingOrders');
   http.listen(PORT, () => console.log(`listening on ${PORT}`));
+  
+  let socket;
+  io.on('connection', connect => socket = connect);
 
   app.post('/auth', (req, res) => {
     const userData = req.body;
@@ -123,16 +126,21 @@ MongoClient.connect(url, (err, db) => {
       .then(result => res.status(200).json(result))
       .catch(err => console.error(err));
   });
-
-  io.on('connection', socket => {
+  app.post('/order', (req, res) => {
+    addOrder(req.body, addedOrders)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(err => console.error(err));
+  }); 
     
-    app.post('/order', (req, res) => {
-      addOrder(req.body, addedOrders)
-        .then(result => {
-          res.status(200).json(result);
-        })
-        .catch(err => console.error(err));
-    }); 
+    // app.post('/order', (req, res) => {
+    //   addOrder(req.body, addedOrders)
+    //     .then(result => {
+    //       res.status(200).json(result);
+    //     })
+    //     .catch(err => console.error(err));
+    // }); 
 
     app.post('/cook', (req, res) => {
       addCookingDish(req.body, cookingOrders, addedOrders)
@@ -159,6 +167,6 @@ MongoClient.connect(url, (err, db) => {
           socket.emit('orderDelivered', dish);
         });  
     });
-  });
+  
 });
 module.exports = app;
