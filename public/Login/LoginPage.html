@@ -11,8 +11,8 @@
         <label for="icon_email">E-mail</label>
         <input id="icon_email" type="email" class="validate" data-ng-model="vm.user.email" name="emailInput" />
       </div>
-      <div data-ng-show="vm.loginForm.emailInput.$dirty && vm.loginForm.emailInput.$invalid">
-          <p data-ng-show="vm.loginForm.emailInput.$invalid">Введите корректный email</p>
+      <div data-ng-show="vm.user.email.$dirty && vm.user.email.$invalid">
+          <p data-ng-show="vm.user.email.$invalid">Введите корректный email</p>
         </div>
       <div class="col s3 push-s9">
         <label>
