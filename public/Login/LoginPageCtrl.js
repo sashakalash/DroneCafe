@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('LoginPageCtrl', function(LoginService, $sessionStorage, $localStorage, $state) {
+  .controller('LoginPageCtrl', function (LoginService, $sessionStorage, $localStorage, $state) {
     const vm = this;
     vm.notValidate = true;
     vm.formSended = false;
     vm.formSubmit = () => {
-      LoginService.loginUser(vm.user) 
+      LoginService.loginUser(vm.user)
         .then(res => {
           if (vm.user.member) {
             $localStorage.user = res.data;
@@ -15,8 +15,7 @@ angular.module('myApp')
           $state.go('orderPage');
         })
         .catch(err => console.log(err));
-    vm.loginForm.$setPristine();
-    vm.formSended = true;
-  };
-});
-   
+      vm.loginForm.$setPristine();
+      vm.formSended = true;
+    };
+  });

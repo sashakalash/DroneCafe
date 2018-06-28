@@ -12,20 +12,21 @@
         <input id="icon_email" type="email" class="validate" data-ng-model="vm.user.email" name="emailInput" />
       </div>
       <div data-ng-show="vm.user.email.$dirty && vm.user.email.$invalid">
-          <p data-ng-show="vm.user.email.$invalid">Введите корректный email</p>
-        </div>
+        <p data-ng-show="vm.user.email.$invalid">Введите корректный email</p>
+      </div>
       <div class="col s3 push-s9">
         <label>
-          <input type="checkbox" data-ng-model="vm.user.member" class="filled-in" /> 
+          <input type="checkbox" data-ng-model="vm.user.member" class="filled-in" />
           <span>Запомнить меня</span>
         </label>
       </div>
       <div class="col s2 push-s10">
-        <button data-ng-disabled="vm.loginForm.emailInput.$invalid" data-ng-click="vm.formSubmit()" class="btn waves-effect waves-light" type="submit" name="action">
+        <button data-ng-disabled="vm.loginForm.emailInput.$invalid" data-ng-click="vm.formSubmit()" class="btn waves-effect waves-light"
+          type="submit" name="action">
           <span>Войти</span>
           <i class="material-icons right">send</i>
         </button>
-      </div>     
+      </div>
     </div>
   </form>
 </div>
