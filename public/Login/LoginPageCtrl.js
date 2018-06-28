@@ -3,6 +3,7 @@
 angular.module('myApp')
   .controller('LoginPageCtrl', function(LoginService, $sessionStorage, $localStorage, $state) {
     const vm = this;
+    vm.notValidate = true;
     vm.formSended = false;
     vm.formSubmit = () => {
       LoginService.loginUser(vm.user) 
