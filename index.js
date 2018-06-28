@@ -93,6 +93,8 @@ const deleteFromList = (id, db) => {
   });
 };
 
+let socket;
+
 MongoClient.connect(url, (err, db) => {
   if (err) {
     console.log(`Couldn't connect to Mongo's server. Err: ${err}`);
@@ -102,7 +104,6 @@ MongoClient.connect(url, (err, db) => {
   const cookingOrders = db.collection('cookingOrders');
   http.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-  let socket;
   io.on('connection', connect => socket = connect);
 
   app.post('/auth', (req, res) => {
