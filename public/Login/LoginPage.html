@@ -1,18 +1,15 @@
-<div data-ng-hide="vm.formSended">
-  <form name="vm.loginForm" novalidate>
-    <div id="form-group">
-      <label>Имя</label>
-      <input type="text" name="nameInput" data-ng-model="vm.user.name">
+<div data-ng-hide="vm.formSended" class="row">
+  <form name="vm.loginForm" novalidate class="col s12">
+    <div class="input-field col s6">
+      <label for="first_name">Имя</label>
+      <input type="text" name="nameInput" data-ng-model="vm.user.name" placeholder="Name" id="first_name" class="validate" />
     </div>
-    <div class="form-group" data-ng-class="{'has-error': vm.loginForm.emailInput.$dirty && vm.loginForm.emailInput.$invalid }">
-      <label>E-mail</label>
-      <input type="email" name="emailInput" data-ng-model="vm.user.email">
-    </div>
-    <div data-ng-show="vm.loginForm.emailInput.$dirty && vm.loginForm.emailInput.$invalid">
-      <p data-ng-show="vm.loginForm.emailInput.$invalid">Введите корректный email</p>
+    <div class="input-field col s12">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" class="validate" data-ng-model="vm.user.email" placeholder="E-mail" />
     </div>
     <button data-ng-click="vm.formSubmit()">send</button>
     <label>Запомнить меня</label>
-    <input type="checkbox" data-ng-model="vm.user.member"> 
+    <input type="checkbox" data-ng-model="vm.user.member" checked="checked" /> 
   </form>
 </div>

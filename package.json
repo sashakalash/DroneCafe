@@ -22,7 +22,9 @@
     "angular-socket-io": "^0.7.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "ember-cli-materialize": "^0.22.0-beta.0",
     "express": "^4.16.3",
+    "materialize-css": "^1.0.0-rc.2",
     "mocha": "^5.2.0",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.33",
@@ -32,5 +34,8 @@
     "socket.io-client": "^2.1.1",
     "supertest": "^3.1.0",
     "ui-router": "^1.0.0-alpha.3"
+  },
+  "dependencies": {
+    "g": "^2.0.1"
   }
 }

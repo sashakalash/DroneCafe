@@ -10,7 +10,7 @@ angular.module('myApp', [
     if(!($sessionStorage.user && $localStorage.user)) {
       $timeout(() => $state.go('loginPage'));
     }
-    $state.go('orderPage');
+    $state.go('orderPager');
   })
   .config(function($stateProvider) {
 
