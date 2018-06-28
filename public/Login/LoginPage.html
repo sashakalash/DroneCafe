@@ -1,15 +1,27 @@
 <div data-ng-hide="vm.formSended" class="row">
-  <form name="vm.loginForm" novalidate class="col s12">
-    <div class="input-field col s6">
-      <label for="first_name">Имя</label>
-      <input type="text" name="nameInput" data-ng-model="vm.user.name" placeholder="Name" id="first_name" class="validate" />
+  <form name="vm.loginForm" novalidate class="col s6">
+    <div class="row">
+      <div class="input-field col s6 offset-s9">
+        <i class="material-icons prefix">account_circle</i>
+        <label for="icon_prefix">Имя</label>
+        <input type="text" name="nameInput" data-ng-model="vm.user.name" id="icon_prefix" class="validate" />
+      </div>
+      <div class="input-field col s6 offset-s9">
+        <i class="material-icons prefix">email</i>
+        <label for="icon_email">E-mail</label>
+        <input id="icon_email" type="email" class="validate" data-ng-model="vm.user.email" />
+      </div>
+      <div class="col s3 push-s9">
+        <label>
+          <input type="checkbox" data-ng-model="vm.user.member" class="filled-in" /> 
+          <span>Запомнить меня</span>
+        </label>
+      </div>
+      <div class="col s2 push-s10">
+        <button data-ng-click="vm.formSubmit()" class="btn waves-effect waves-light" type="submit" name="action">Войти
+          <i class="material-icons right">send</i>
+        </button>
+      </div>     
     </div>
-    <div class="input-field col s12">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" class="validate" data-ng-model="vm.user.email" placeholder="E-mail" />
-    </div>
-    <button data-ng-click="vm.formSubmit()">send</button>
-    <label>Запомнить меня</label>
-    <input type="checkbox" data-ng-model="vm.user.member" checked="checked" /> 
   </form>
 </div>

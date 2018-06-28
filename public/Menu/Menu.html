@@ -1,24 +1,36 @@
-<a href="#!/order">Order</a>
-<a href="#!/kitchen">Kitchen</a>
+<navigation></navigation>
 <client-info></client-info>
-<div class="list-group"> 
-  <div class="list-group-item" data-ng-repeat="menuItem in vm.menu">
-    <h4 class="list-group-item-heading">
-      <span>Блюдо: {{menuItem.title}}</span>
-    </h4>
-    <button ng-disabled="vm.checked" data-ng-click="vm.addOrder(menuItem)" data-ng-bind="vm.orderBtnData(menuItem.price)"></button>
-    <div>
-      <img data-ng-src="{{menuItem.image}}" class="list-group-item-heading">
+<div class="row" data-ng-repeat="menuItem in vm.menu">
+  <div class="card col s12 m6 l3">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" data-ng-src="{{menuItem.image}}">
     </div>
-    <p class="list-group-item-text">
-      Id: {{menuItem.id}}, Рейтинг блюда: {{menuItem.rating}}
-    </p>
-    <p>Ингредиенты:</p>
-    <ul class="list-group-item-sublist" data-ng-repeat="ingredient in menuItem.ingredients track by $index">
-      <li>{{ingredient}}</li>
-    </ul>
-    <p class="list-group-item-price">
-      Цена: {{menuItem.price}}
-    </p>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">{{menuItem.title}}
+        <i class="material-icons right">more_vert</i>
+      </span>
+      <p>
+        <div class="collection">
+          <div class="collection-item">
+            <i class="material-icons">new_releases</i>Id: {{menuItem.id}}</div>
+          <div class="collection-item">
+            <i class="material-icons">grade</i>{{menuItem.rating}}</div>
+          <div class="collection-item">
+            <i class="material-icons">attach_money</i>{{menuItem.price}}</div>
+        </div>
+      </p>
+
+      <button class="waves-effect waves-light btn-small" ng-disabled="vm.checked" data-ng-click="vm.addOrder(menuItem)" data-ng-bind="vm.orderBtnData(menuItem.price)"></button>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">{{menuItem.title}}
+        <i class="material-icons right">close</i>
+      </span>
+      <p>
+        <ul class="collection" data-ng-repeat="ingredient in menuItem.ingredients track by $index">
+          <li class="collection-item">{{ingredient}}</li>
+        </ul>
+      </p>
+    </div>
   </div>
 </div>

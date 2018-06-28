@@ -1,31 +1,11 @@
-<div>
-  <a href="#!/kitchen">Kitchen</a>
-  <client-info></client-info>
-  <p>Список заказов</p>
-  <table>
-    <tr>
-      <td width="85%">Название</td>
-      <td width="15%">Статус</td>
-      <td></td>
-    </tr>
-    <tr data-ng-repeat="dish in vm.dishes track by $index">
-        <td colspan="4">
-            <order-item dish="dish"></order-item>
-        </td>
-    </tr>
-  </table>
-  <button data-ng-click="vm.showMenu()">Выбрать блюдо</button>
-  <p>Готово</p>
-  <table>
-      <tr>
-        <td width="85%">Название</td>
-        <td width="15%">Статус</td>
-        <td></td>
-      </tr>
-      <tr data-ng-repeat="dish in vm.orderDelivered track by $index">
-          <td colspan="4">
-              <order-item dish="dish"></order-item>
-          </td>
-      </tr>
-    </table>
+<navigation></navigation>
+<client-info></client-info>
+<h4 class="truncate">Cписок заказов</h4>
+<div class="collection" data-ng-repeat="dish in vm.dishes track by $index">
+  <order-item dish="dish"></order-item>
+</div>
+<button class="waves-effect waves-light btn" data-ng-click="vm.showMenu()">Выбрать блюдо</button>
+<h4 class="truncate">Готово</h4>
+<div class="collection" data-ng-repeat="dish in vm.orderDelivered track by $index">
+  <order-item dish="dish"></order-item>
 </div>

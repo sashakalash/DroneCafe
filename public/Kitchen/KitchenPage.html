@@ -1,7 +1,4 @@
-<a href="#!/menu">Menu</a>
-<div>
-  <a href="#!/order">Order</a>
-</div>
+<navigation></navigation>
 <h2>Заказанные блюда</h2>
 <table width="50%">
   <tr>
@@ -14,7 +11,7 @@
       <order-item dish="dish"></order-item>
     </td>
     <td>
-      <button data-ng-click="vm.startCook(dish)">Начать готовить</button>
+      <button class="waves-effect waves-light btn" data-ng-click="vm.startCook(dish)">Начать готовить</button>
     </td>
   </tr>
 </table>
@@ -25,12 +22,12 @@
     <td width="15%">Статус</td>
     <td></td>
   </tr>
-    <tr data-ng-repeat="dish in vm.cookingDishes track by $index">
-      <td colspan="4">
-        <order-item dish="dish"></order-item>
-      </td>
-      <td>
-        <button data-ng-click="vm.endCook(dish)">Готово</button>
-      </td>
-    </tr>
+  <tr data-ng-repeat="dish in vm.cookingDishes track by $index">
+    <td colspan="4">
+      <order-item dish="dish"></order-item>
+    </td>
+    <td>
+      <button class="waves-effect waves-light btn" data-ng-click="vm.endCook(dish)">Готово</button>
+    </td>
+  </tr>
 </table>
