@@ -75,15 +75,12 @@ const addCookingDish = (orderData, cookDb, orderedDb) => {
   return new Promise((done, fail) => {
     const dishSelector = {"_id": new ObjectID(`${orderData.dish._id}`)};
     const userSelector = {userEmail: orderData.user.email};
-    const dishToRemove = orderedDb.find({$and: [dishSelector, userSelector]});
-    const dishToRemoveSelector = {_id: new ObjectID(dishToRemove['_id'])};
-    console.log(dishSelector, 'dishSelector')
-    console.log(userSelector, 'userSelector')
-    // console.log(dishToRemove, 'dishToRemove')
-    console.log(dishToRemoveSelector, 'dishToRemoveSelector')
-
-    orderedDb.remove(dishToRemoveSelector);
-    cookDb.insert({title: orderData.dish.title, userEmail: userSelector, status: orderData.dish.status}, (err, result) => {
+    orderedDb.deleteOne({$and: [dishSelector, userSelector]});
+    cookDb.insert({
+      title: orderData.dish.title, 
+      userEmail: orderData.user.email, 
+      status: orderData.dish.status
+    }, (err, result) => {
       err? fail(err): done(result);
     });
   });
@@ -98,13 +95,11 @@ const getCookingList = (user, db) => {
   });
 };
 
-const deleteFromList = (data, db) => {
+const deleteFromCookingList = (data, db) => {
   return new Promise((done, fail) => {
     const dishSelector = {_id: new ObjectID(data.dish['_id'])};
     const userSelector = {userEmail: data.user.email};
-    const dishToRemove = db.find({$and: [dishSelector, userSelector]});
-    const dishToRemoveSelector = {_id: new ObjectID(dishToRemove._id)};
-    db.remove(dishToRemoveSelector, (err, res) => {
+    db.deleteOne({$and: [dishSelector, userSelector]}, (err, res) => {
       err? fail(err): done(res);
     });
   });
@@ -165,7 +160,7 @@ MongoClient.connect(url, (err, db) => {
   app.post('/delivery', (req, res) => {
     const user = req.body.user;
     const dish = req.body.dish;
-    deleteFromList(req.body, cookingOrders)
+    deleteFromCookingList(req.body, cookingOrders)
       .then(() => socket.emit('reloadList'))
       .catch(err => console.error(err));
     drone.deliver(user, dish)
