@@ -8,21 +8,21 @@ angular.module('myApp')
     $q
   ){
     const vm = this;
-    const reloadLists = () => $q
-      .all([OrderService.getOrderList(), OrderService.getCookingList()])
+    const reloadLists = (user) => $q
+      .all([OrderService.getOrderList(user), OrderService.getCookingList(user)])
       .then(results => {
         vm.orderedDishes = results[0].data;
         vm.cookingDishes = results[1].data;
       });
-    reloadLists();
+    reloadLists($sessionStorage.user);
 
     mySocket.on('reloadList', () => {
-      reloadLists();
+      reloadLists($sessionStorage.user);
     });
 
     vm.startCook = dish => {
       dish.status = 'Готовится';
-      OrderService.cookDish(dish)
+      OrderService.cookDish({user: $sessionStorage.user, dish: dish})
         .catch(err => console.error(err));
     };
 

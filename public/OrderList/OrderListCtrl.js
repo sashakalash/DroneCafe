@@ -1,16 +1,14 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('OrderListCtrl', function(OrderService, $state, mySocket) {
+  .controller('OrderListCtrl', function(OrderService, $state, mySocket, $sessionStorage) {
     const vm = this;
     vm.isDelivered = false;
     vm.isDelveryFailed = false;
-    OrderService.getOrderList()
+    OrderService.getOrderList($sessionStorage.user)
       .then(data => vm.dishes = data.data)
       .catch(err => console.error(err));
 
-    vm.isShowMenu = false;
-    vm.menuBtnText = 'Выбрать блюдо';
     vm.showMenu = () => $state.go('menu');
 
     vm.orderDelivered = [];

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('MenuCtrl', function (MenuService, $sessionStorage, OrderService, mySocket) {
+  .controller('MenuCtrl', function (MenuService, $sessionStorage, OrderService) {
     const vm = this;
     MenuService.getMenu().then(data => {
       vm.menu = data.data;
@@ -18,7 +18,7 @@ angular.module('myApp')
     });
     vm.addOrder = dish => {
       dish.status = 'Заказано';
-      OrderService.addOrder(dish)
+      OrderService.addOrder({dish: dish, user: $sessionStorage.user})
         .then(() => $sessionStorage.user.balance -= dish.price)
         .catch(err => console.error(err));
     };

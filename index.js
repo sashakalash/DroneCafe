@@ -50,44 +50,61 @@ const checkUser = (user, db) => {
     });
 };
 
-const addOrder = (dish, db) => {
+const addOrder = (data, db) => {
   return new Promise((done, fail) => {
-    db.insert({title: dish.title, status: dish.status}, (err, result) => {
+    db.insert({
+      title: data.dish.title, 
+      userEmail: data.user.email, 
+      status: data.dish.status}, 
+      (err, result) => {
+        err? fail(err): done(result);
+      });
+    });
+};
+
+const getOrderedList = (user, db) => {
+  return new Promise((done, fail) => {
+    const selector = {userEmail: user.email};
+    db.find(selector).toArray((err, result) => {
       err? fail(err): done(result);
     });
   });
 };
 
-const getOrderedList = db => {
+const addCookingDish = (orderData, cookDb, orderedDb) => {
   return new Promise((done, fail) => {
-    db.find().toArray((err, result) => {
+    const dishSelector = {"_id": new ObjectID(`${orderData.dish._id}`)};
+    const userSelector = {userEmail: orderData.user.email};
+    const dishToRemove = orderedDb.find({$and: [dishSelector, userSelector]});
+    const dishToRemoveSelector = {_id: new ObjectID(dishToRemove['_id'])};
+    console.log(dishSelector, 'dishSelector')
+    console.log(userSelector, 'userSelector')
+    // console.log(dishToRemove, 'dishToRemove')
+    console.log(dishToRemoveSelector, 'dishToRemoveSelector')
+
+    orderedDb.remove(dishToRemoveSelector);
+    cookDb.insert({title: orderData.dish.title, userEmail: userSelector, status: orderData.dish.status}, (err, result) => {
       err? fail(err): done(result);
     });
   });
 };
 
-const addCookingDish = (dish, cookDb, orderedDb) => {
+const getCookingList = (user, db) => {
+  const selector = {userEmail: user.email};
   return new Promise((done, fail) => {
-    const selector = {_id: new ObjectID(dish['_id'])};
-    orderedDb.remove(selector);
-    cookDb.insert({title: dish.title, status: dish.status}, (err, result) => {
+    db.find(selector).toArray((err, result) => {
       err? fail(err): done(result);
     });
   });
 };
 
-const getCookingList = db => {
+const deleteFromList = (data, db) => {
   return new Promise((done, fail) => {
-    db.find().toArray((err, result) => {
-      err? fail(err): done(result);
-    });
-  });
-};
-
-const deleteFromList = (id, db) => {
-  return new Promise((done, fail) => {
-    const selector = {_id: new ObjectID(id)};
-    db.remove(selector, (err, res) => {
+    const dishSelector = {_id: new ObjectID(data.dish['_id'])};
+    const userSelector = {userEmail: data.user.email};
+    const dishToRemove = db.find({$and: [dishSelector, userSelector]});
+    const dishToRemoveSelector = {_id: new ObjectID(dishToRemove._id)};
+    db.remove(dishToRemoveSelector, (err, res) => {
       err? fail(err): done(res);
     });
   });
@@ -116,14 +133,15 @@ MongoClient.connect(url, (err, db) => {
       .catch(err => console.error(err));
   });
 
-  app.get('/order', (req, res) => {
-    getOrderedList(addedOrders)
-      .then(result => res.status(200).json(result))
+  app.post('/order-list', (req, res) => {
+    getOrderedList(req.body, addedOrders)
+      .then(result => {
+        res.status(200).json(result)})
       .catch(err => console.error(err));
   });
   
-  app.get('/cook', (req, res) => {
-    getCookingList(cookingOrders)
+  app.post('/cook-list', (req, res) => {
+    getCookingList(req.body, cookingOrders)
       .then(result => res.status(200).json(result))
       .catch(err => console.error(err));
   });
@@ -147,7 +165,7 @@ MongoClient.connect(url, (err, db) => {
   app.post('/delivery', (req, res) => {
     const user = req.body.user;
     const dish = req.body.dish;
-    deleteFromList(dish['_id'], cookingOrders)
+    deleteFromList(req.body, cookingOrders)
       .then(() => socket.emit('reloadList'))
       .catch(err => console.error(err));
     drone.deliver(user, dish)

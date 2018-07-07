@@ -11,10 +11,11 @@ angular
           data: JSON.stringify(orderData)
         });
       },
-      getOrderList: () => {
+      getOrderList: user => {
         return $http({
-          method: 'GET',
-          url: '/order'
+          method: 'POST',
+          url: '/order-list',
+          data: user
         });
       },
       cookDish: orderData => {
@@ -24,10 +25,11 @@ angular
           data: JSON.stringify(orderData)
         });
       },
-      getCookingList: () => {
+      getCookingList: user => {
         return $http({
-          method: 'GET',
-          url: '/cook'
+          method: 'POST',
+          url: '/cook-list',
+          data: user
         });
       },
       sendDish: data => {
